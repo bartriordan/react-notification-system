@@ -31,10 +31,6 @@
     "url": "https://github.com/igorprado/react-notification-system/issues"
   },
   "homepage": "https://github.com/igorprado/react-notification-system",
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "object-assign": "^4.0.1"
-  },
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0",
     "react-dom": "0.14.x || ^15.0.0"
@@ -53,6 +49,7 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-1": "^6.22.0",
+    "classnames": "^2.2.5",
     "css-loader": "^0.24.0",
     "eslint": "3.4.0",
     "eslint-plugin-import": "^1.14.0",

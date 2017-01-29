@@ -5,7 +5,6 @@ import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 import NotificationSystem from 'NotificationSystem'
 import { positions, levels } from 'constants'
-import merge from 'object-assign'
 
 const defaultNotification = {
   title: 'This is a title',
@@ -45,7 +44,7 @@ describe('Notification Component', function() {
     node = window.document.createElement('div')
     instance = TestUtils.renderIntoDocument(React.createElement(ElementWrapper), node)
     component = instance.refs[ref]
-    notificationObj = merge({}, defaultNotification)
+    notificationObj = {...defaultNotification}
 
     clock = sinon.useFakeTimers()
   })
