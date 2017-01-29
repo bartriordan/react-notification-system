@@ -68,7 +68,7 @@ module.exports = {
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
-        loader: 'babel?presets=airbnb'
+        loader: 'babel'
       },
       {
         test: /\.sass$/,
