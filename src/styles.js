@@ -1,5 +1,5 @@
 // Used for calculations
-var defaultWidth = 320;
+var defaultWidth = 320
 var defaultColors = {
   success: {
     rgb: '94, 164, 0',
@@ -17,10 +17,10 @@ var defaultColors = {
     rgb: '54, 156, 199',
     hex: '#369cc7'
   }
-};
-var defaultShadowOpacity = '0.9';
+}
+var defaultShadowOpacity = '0.9'
 
-var STYLES = {
+export default {
 
   Wrapper: {},
   Containers: {
@@ -255,6 +255,4 @@ var STYLES = {
       padding: 0
     }
   }
-};
-
-module.exports = STYLES;
+}
