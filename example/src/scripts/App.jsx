@@ -84,8 +84,12 @@ class NotificationSystemExample extends React.Component {
 
     this.magicCount = 0
     this.notificationSystem = null
+
+    this.state = {allowHTML: false, viewHeight: null}
+
+    this.allowHTML = this.allowHTML.bind(this)
+    this.showTheMagic = this.showTheMagic.bind(this)
   }
-  getInitialState() { return { allowHTML: false, viewHeight: null} }
   componentWillMount() { this.setState({ viewHeight: window.innerHeight }) }
   componentDidMount() { this.notificationSystem = this.refs.notificationSystem }
   allowHTML(allow) { this.setState({allowHTML: allow}) }
@@ -124,7 +128,7 @@ class NotificationSystemExample extends React.Component {
           </div>
         </header>
         <div className='wrapper'>
-          <NotificationGenerator notifications={this.notificationSystemInstance} allowHTML={this.allowHTML} />
+          <NotificationGenerator allowHTML={this.allowHTML} notifications={this.notificationSystemInstance} />
         </div>
         <footer className='footer gradient'>
           <div className='overlay' />
