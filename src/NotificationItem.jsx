@@ -1,27 +1,10 @@
+import classnames from 'classnames'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Constants from './constants'
+
+import constants from './constants'
 import Helpers from './helpers'
-import classnames from 'classnames'
-
-/* From Modernizr */
-const whichTransitionEvent = () => {
-  let element = document.createElement('fakeelement')
-  let transition
-  let transitions = {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd'
-  }
-
-  Object.keys(transitions).forEach(transitionKey => {
-    if (element.style[transitionKey] !== undefined)
-      transition = transitions[transitionKey]
-  })
-
-  return transition
-}
+import whichTransitionEvent from 'whichTransitionEvent'
 
 
 const NotificationItem = React.createClass({
@@ -78,30 +61,30 @@ const NotificationItem = React.createClass({
     let css = {}
 
     switch (position) {
-      case Constants.positions.tl:
-      case Constants.positions.bl:
+      case constants.positions.tl:
+      case constants.positions.bl:
         css = {
           property: 'left',
           value: -200
         }
         break
 
-      case Constants.positions.tr:
-      case Constants.positions.br:
+      case constants.positions.tr:
+      case constants.positions.br:
         css = {
           property: 'right',
           value: -200
         }
         break
 
-      case Constants.positions.tc:
+      case constants.positions.tc:
         css = {
           property: 'top',
           value: -100
         }
         break
 
-      case Constants.positions.bc:
+      case constants.positions.bc:
         css = {
           property: 'bottom',
           value: -100
