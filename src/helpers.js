@@ -4,17 +4,16 @@ export default {
     let start
     let remaining = delay
 
-    this.pause = function() {
+    this.clear = () => clearTimeout(timerId)
+    this.pause = () => {
       clearTimeout(timerId)
       remaining -= new Date() - start
     }
-    this.resume = function() {
+    this.resume = () => {
       start = new Date()
       clearTimeout(timerId)
       timerId = setTimeout(callback, remaining)
     }
-
-    this.clear = function() { clearTimeout(timerId) }
 
     this.resume()
   }
