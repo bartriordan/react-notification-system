@@ -1,6 +1,5 @@
 import classnames from 'classnames'
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 import constants from './constants'
 import Helpers from './helpers'
@@ -56,6 +55,33 @@ const NotificationItem = React.createClass({
     if (!this.props.notification.dismissible)
       this.styles.notification.cursor = 'default'
   },
+  componentDidMount() {
+    let transitionEvent = whichTransitionEvent()
+
+    this.height = this.refs.notificationItem.offsetHeight
+    this._isMounted = true
+
+    // Watch for transition end
+    if (!this.noAnimation) {
+      if (transitionEvent)
+        this.refs.notificationItem.addEventListener(transitionEvent, this.onTransitionEnd)
+      else
+        this.noAnimation = true
+    }
+
+    if (this.props.notification.autoDismiss) {
+      this.notificationTimer = new Helpers.Timer(
+        () => this.hideNotification(),
+        this.props.notification.autoDismiss * 1000
+      )
+    }
+
+    this.showNotification()
+  },
+  componentWillUnmount() {
+    this.refs.notificationItem.removeEventListener(whichTransitionEvent(), this.onTransitionEnd)
+    this._isMounted = false
+  },
   getCssPropertyByPosition() {
     let position = this.props.notification.position
     let css = {}
@@ -96,7 +122,6 @@ const NotificationItem = React.createClass({
 
     return css
   },
-
   defaultAction(event) {
     event.preventDefault()
 
@@ -124,9 +149,7 @@ const NotificationItem = React.createClass({
     if (this.props.notification.dismissible)
       this.hideNotification()
   },
-  showNotification() {
-    setTimeout(() => this.setState({visible: true}), 50)
-  },
+  showNotification() { setTimeout(() => this.setState({visible: true}), 50) },
   onTransitionEnd() {
     if (this.removeCount > 0)
       return
@@ -136,32 +159,7 @@ const NotificationItem = React.createClass({
       this.removeNotification()
     }
   },
-  componentDidMount() {
-    let transitionEvent = whichTransitionEvent()
-    let notification = this.props.notification
-    let element = ReactDOM.findDOMNode(this)
-
-    this.height = element.offsetHeight
-    this._isMounted = true
-
-    // Watch for transition end
-    if (!this.noAnimation) {
-      if (transitionEvent)
-        element.addEventListener(transitionEvent, this.onTransitionEnd)
-      else
-        this.noAnimation = true
-    }
-
-    if (notification.autoDismiss) {
-      this.notificationTimer = new Helpers.Timer(
-        () => this.hideNotification(),
-        notification.autoDismiss * 1000
-      )
-    }
-
-    this.showNotification()
-  },
-  handleMouseEnter() {
+  preventDisappearanceDuringMouseover() {
     if (this.props.notification.autoDismiss)
       this.notificationTimer.pause()
   },
@@ -169,23 +167,34 @@ const NotificationItem = React.createClass({
     if (this.props.notification.autoDismiss)
       this.notificationTimer.resume()
   },
-  componentWillUnmount() {
-    let element = ReactDOM.findDOMNode(this)
-    let transitionEvent = whichTransitionEvent()
-    element.removeEventListener(transitionEvent, this.onTransitionEnd)
-    this._isMounted = false
-  },
   allowHTML(string) { return {__html: string} },
+  constructNotificationStyles(notificationStyle) {
+    let cssByPosition = this.getCssPropertyByPosition()
+
+    if (this.props.getStyles.overrideStyle) {
+      notificationStyle.opacity = this.state.visible * 1
+
+      if (!this.state.visible && !this.state.removed)
+        notificationStyle[cssByPosition.property] = cssByPosition.value
+
+      if (this.state.visible && !this.state.removed) {
+        notificationStyle.height = this.height
+        notificationStyle[cssByPosition.property] = 0
+      }
+
+      if (this.state.removed) {
+        ['height', 'marginTop', 'paddingTop', 'paddingBottom'].forEach(attribute => notificationStyle[attribute] = 0)
+        notificationStyle.overlay = 'hidden'
+      }
+    }
+    return notificationStyle
+  },
 
   render() {
     let notification = this.props.notification
-    let notificationStyle = {...this.styles.notification}
-    let cssByPos = this.getCssPropertyByPosition()
-    let dismiss = null
-    let actionButton = null
-    let title = null
-    let message = null
 
+
+    let additionalMessageProp = (this.props.allowHTML ? {dangerouslySetInnerHTML: this.allowHTML(notification.message)} : {children: notification.message})
     let className = classnames(
       'notification',
       `notification-${notification.level}`,
@@ -196,61 +205,25 @@ const NotificationItem = React.createClass({
       }
     )
 
-    if (this.props.getStyles.overrideStyle) {
-      if (!this.state.visible && !this.state.removed)
-        notificationStyle[cssByPos.property] = cssByPos.value
-
-      if (this.state.visible && !this.state.removed) {
-        notificationStyle.height = this.height
-        notificationStyle[cssByPos.property] = 0
-      }
-
-      if (this.state.removed) {
-        notificationStyle.overlay = 'hidden'
-        notificationStyle.height = 0
-        notificationStyle.marginTop = 0
-        notificationStyle.paddingTop = 0
-        notificationStyle.paddingBottom = 0
-      }
-      notificationStyle.opacity = (
-        this.state.visible ?
-        this.styles.notification.isVisible.opacity :
-        this.styles.notification.isHidden.opacity
-      )
-    }
-
-    if (notification.title)
-      title = <h4 className='notification-title' style={this.styles.title}>{notification.title}</h4>
-
-    if (notification.message) {
-      if (this.props.allowHTML)
-        message = <div className='notification-message' style={this.styles.messageWrapper} dangerouslySetInnerHTML={this.allowHTML(notification.message)} />
-      else
-        message = <div className='notification-message' style={this.styles.messageWrapper}>{notification.message}</div>
-    }
-
-    if (notification.dismissible)
-      dismiss = <span className='notification-dismiss' style={this.styles.dismiss}>&times;</span>
-
-    if (notification.action) {
-      actionButton = (
-        <div className='notification-action-wrapper' style={this.styles.actionWrapper}>
-          <button className='notification-action-button' onClick={this.defaultAction} style={this.styles.action}>
-              {notification.action.label}
-          </button>
-        </div>
-      )
-    }
-
-    if (notification.children)
-      actionButton = notification.children
-
     return (
-      <div className={className} onClick={this.dismiss} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} style={notificationStyle}>
-        {title}
-        {message}
-        {dismiss}
-        {actionButton}
+      <div className={className} onClick={this.dismiss} onMouseEnter={this.preventDisappearanceDuringMouseover} onMouseLeave={this.handleMouseLeave} ref='notificationItem' style={this.constructNotificationStyles({...this.styles.notification})}>
+        {notification.title && <h4 className='notification-title' style={this.styles.title}>{notification.title}</h4>}
+        {notification.message && <div className='notification-message' style={this.styles.messageWrapper} {...additionalMessageProp} />}
+        {notification.dismissible && <span className='notification-dismiss' style={this.styles.dismiss}>&times;</span>}
+        {
+          notification.children ?
+          notification.children :
+          (
+            notification.action &&
+            (
+              <div className='notification-action-wrapper' style={this.styles.actionWrapper}>
+                <button className='notification-action-button' onClick={this.defaultAction} style={this.styles.action}>
+                  {notification.action.label}
+                </button>
+              </div>
+            )
+          )
+        }
       </div>
     )
   }
