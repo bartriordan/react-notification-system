@@ -88,12 +88,13 @@ class NotificationSystemExample extends React.Component {
     this.state = {allowHTML: false, viewHeight: null}
 
     this.allowHTML = this.allowHTML.bind(this)
+    this.notificationSystemInstance = this.notificationSystemInstance.bind(this)
     this.showTheMagic = this.showTheMagic.bind(this)
   }
   componentWillMount() { this.setState({ viewHeight: window.innerHeight }) }
   componentDidMount() { this.notificationSystem = this.refs.notificationSystem }
   allowHTML(allow) { this.setState({allowHTML: allow}) }
-  notificationSystemInstance() { return this.notificationSystem }
+  notificationSystemInstance() { return this.refs.notificationSystem }
   showTheMagic() {
     EXAMPLE_NOTIFICATIONS.forEach(notification => {
       let clonedNotification = notification
