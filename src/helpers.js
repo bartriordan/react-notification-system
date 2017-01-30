@@ -1,26 +1,20 @@
-var Helpers = {
-  Timer: function(callback, delay) {
-    var timerId;
-    var start;
-    var remaining = delay;
+export default {
+  Timer(callback, delay) {
+    let timerId
+    let start
+    let remaining = delay
 
-    this.pause = function() {
-      clearTimeout(timerId);
-      remaining -= new Date() - start;
-    };
+    this.clear = () => clearTimeout(timerId)
+    this.pause = () => {
+      clearTimeout(timerId)
+      remaining -= new Date() - start
+    }
+    this.resume = () => {
+      start = new Date()
+      clearTimeout(timerId)
+      timerId = setTimeout(callback, remaining)
+    }
 
-    this.resume = function() {
-      start = new Date();
-      clearTimeout(timerId);
-      timerId = setTimeout(callback, remaining);
-    };
-
-    this.clear = function() {
-      clearTimeout(timerId);
-    };
-
-    this.resume();
+    this.resume()
   }
-};
-
-module.exports = Helpers;
+}

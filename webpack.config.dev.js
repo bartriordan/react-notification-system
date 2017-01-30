@@ -1,7 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require('path')
+var webpack = require('webpack')
 
-var JS_REGEX = /\.js$|\.jsx$|\.es6$|\.babel$/;
+var JS_REGEX = /\.jsx?$|\.es6$|\.babel$/
 
 module.exports = {
   devtool: 'eval',
@@ -30,7 +30,7 @@ module.exports = {
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
-        loader: 'babel?presets=airbnb'
+        loader: 'babel'
       },
       {
         test: /\.sass$/,
@@ -48,4 +48,4 @@ module.exports = {
       }
     ]
   }
-};
+}

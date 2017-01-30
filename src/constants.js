@@ -1,4 +1,4 @@
-var CONSTANTS = {
+export default {
 
   // Positions
   positions: {
@@ -28,7 +28,4 @@ var CONSTANTS = {
     dismissible: true,
     action: null
   }
-};
-
-
-module.exports = CONSTANTS;
+}
