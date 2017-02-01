@@ -1,6 +1,7 @@
 import classnames from 'classnames'
 import React from 'react'
 
+import closeIcon from './close.svg'
 import constants from './constants'
 import Helpers from './helpers'
 import whichTransitionEvent from './whichTransitionEvent'
@@ -129,7 +130,6 @@ const NotificationItem = React.createClass({
     if (typeof this.props.notification.action.callback === 'function')
       this.props.notification.action.callback()
   },
-
   hideNotification() {
     if (this.notificationTimer)
       this.notificationTimer.clear()
@@ -144,11 +144,11 @@ const NotificationItem = React.createClass({
     if (this.noAnimation)
       this.removeNotification()
   },
-  removeNotification() { this.props.onRemove(this.props.notification.uid) },
   dismiss() {
     if (this.props.notification.dismissible)
       this.hideNotification()
   },
+  removeNotification() { this.props.onRemove(this.props.notification.uid) },
   showNotification() { setTimeout(() => this.setState({visible: true}), 50) },
   onTransitionEnd() {
     if (this.removeCount > 0)
@@ -207,23 +207,8 @@ const NotificationItem = React.createClass({
 
     return (
       <div className={className} onClick={this.dismiss} onMouseEnter={this.preventDisappearanceDuringMouseover} onMouseLeave={this.handleMouseLeave} ref='notificationItem' style={this.constructNotificationStyles({...this.styles.notification})}>
-        {notification.title && <h4 className='notification-title' style={this.styles.title}>{notification.title}</h4>}
-        {notification.message && <div className='notification-message' style={this.styles.messageWrapper} {...additionalMessageProp} />}
-        {notification.dismissible && <span className='notification-dismiss' style={this.styles.dismiss}>&times;</span>}
-        {
-          notification.children ?
-          notification.children :
-          (
-            notification.action &&
-            (
-              <div className='notification-action-wrapper' style={this.styles.actionWrapper}>
-                <button className='notification-action-button' onClick={this.defaultAction} style={this.styles.action}>
-                  {notification.action.label}
-                </button>
-              </div>
-            )
-          )
-        }
+        {notification.dismissible && <img alt='Close notification icon' className='notification-dismiss' src={closeIcon} />}
+        {notification.children}
       </div>
     )
   }
