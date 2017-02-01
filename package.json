@@ -7,6 +7,7 @@
     "test": "karma start --single-run --browsers PhantomJS",
     "test-watch": "karma start",
     "build": "babel ./src --out-dir ./dist && cp ./src/close.svg ./dist/close.svg",
+    "prepublish": "npm run build",
     "lint": "eslint src --ext .jsx,.js",
     "start": "NODE_ENV=development node devServer.js",
     "build:example": "rimraf example/build/ && webpack --stats --config webpack.config.prod.js"
