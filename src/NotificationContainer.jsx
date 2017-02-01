@@ -17,7 +17,7 @@ export default class NotificationContainer extends React.Component {
   }
 
   render() {
-    if (['bc', 'bl', 'br'].includes(this.props.position))
+    if (['tc', 'tl', 'tr'].includes(this.props.position)) // Newest notifications on top when container is at the top
       this.props.notifications.reverse()
 
     return (

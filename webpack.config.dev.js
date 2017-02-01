@@ -20,7 +20,7 @@ module.exports = {
   ],
   resolve: {
     extensions: ['', '.js', '.jsx', '.sass'],
-    modulesDirectories: ['node_modules', 'src']
+    modulesDirectories: ['node_modules']
   },
   module: {
     loaders: [

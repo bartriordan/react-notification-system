@@ -6,9 +6,7 @@
   "scripts": {
     "test": "karma start --single-run --browsers PhantomJS",
     "test-watch": "karma start",
-    "prepare-build": "npm run lint && rimraf dist/",
-    "prebuild": "npm run prepare-build",
-    "build": "jsx -x jsx ./src ./dist & jsx ./src ./dist",
+    "build": "babel ./src --out-dir ./dist && cp ./src/close.svg ./dist/close.svg",
     "lint": "eslint src --ext .jsx,.js",
     "start": "NODE_ENV=development node devServer.js",
     "build:example": "rimraf example/build/ && webpack --stats --config webpack.config.prod.js"
@@ -37,6 +35,7 @@
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
+    "babel-cli": "^6.22.2",
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
