@@ -3,7 +3,7 @@ import React from 'react'
 
 import constants from './constants'
 import Helpers from './helpers'
-import whichTransitionEvent from 'whichTransitionEvent'
+import whichTransitionEvent from './whichTransitionEvent'
 
 
 const NotificationItem = React.createClass({
