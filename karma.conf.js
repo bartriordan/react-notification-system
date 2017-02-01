@@ -36,6 +36,11 @@ module.exports = function (config) {
             test: /\.jsx?$/,
             loader: 'babel',
             exclude: /node_modules/
+          },
+          {
+            test: /\.(jpe?g|png|gif|svg|woff|eot|ttf)$/,
+            loader: 'file-loader',
+            exclude: /node_modules/
           }
         ]
       },
