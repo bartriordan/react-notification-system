@@ -206,8 +206,8 @@ const NotificationItem = React.createClass({
     )
 
     return (
-      <div className={className} onClick={this.dismiss} onMouseEnter={this.preventDisappearanceDuringMouseover} onMouseLeave={this.handleMouseLeave} ref='notificationItem' style={this.constructNotificationStyles({...this.styles.notification})}>
-        {notification.dismissible && <img alt='Close notification icon' className='notification-dismiss' src={closeIcon} />}
+      <div className={className} onMouseEnter={this.preventDisappearanceDuringMouseover} onMouseLeave={this.handleMouseLeave} ref='notificationItem' style={this.constructNotificationStyles({...this.styles.notification})}>
+        {notification.dismissible && <img alt='Close notification icon' className='notification-dismiss' onClick={this.dismiss} src={closeIcon} />}
         {notification.children}
       </div>
     )

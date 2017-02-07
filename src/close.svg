@@ -7,7 +7,6 @@
       stroke-miterlimit: 10;
     }
   </style>
-  <circle class='st0' cx='10' cy='10' r='7.5' />
   <line class='st0' x1='13.2' y1='6.8' x2='6.8' y2='13.2' />
   <line class='st0' x1='13.2' y1='13.2' x2='6.8' y2='6.8' />
 </svg>
