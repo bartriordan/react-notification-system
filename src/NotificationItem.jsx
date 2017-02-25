@@ -189,6 +189,16 @@ const NotificationItem = React.createClass({
     }
     return notificationStyle
   },
+  dismissOnInnerClick(event) {
+    if (event)
+      event.stopPropagation() // Prevent dismissal on any click regardless of tag
+    else
+      return // Bail if there's no object
+
+    // Only dismiss if a button or anchor inside the notification is clicked:
+    if (this.props.tagsWhereClickDismisses.includes(event.target.tagName))
+      this.dismiss()
+  },
 
   render() {
     let notification = this.props.notification
@@ -206,12 +216,20 @@ const NotificationItem = React.createClass({
     )
 
     return (
-      <div className={className} onMouseEnter={this.preventDisappearanceDuringMouseover} onMouseLeave={this.handleMouseLeave} ref='notificationItem' style={this.constructNotificationStyles({...this.styles.notification})}>
+      <div className={className} onClick={this.dismissOnInnerClick} onMouseEnter={this.preventDisappearanceDuringMouseover} onMouseLeave={this.handleMouseLeave} ref='notificationItem' style={this.constructNotificationStyles({...this.styles.notification})}>
         {notification.dismissible && <img alt='Close notification icon' className='notification-dismiss' onClick={this.dismiss} src={closeIcon} />}
         {notification.children}
       </div>
     )
   }
 })
+
+NotificationItem.defaultProps = {
+  tagsWhereClickDismisses: ['A', 'BUTTON']
+}
+
+NotificationItem.propTypes = {
+  tagsWhereClickDismisses: React.PropTypes.arrayOf(React.PropTypes.string)
+}
 
 export default NotificationItem
