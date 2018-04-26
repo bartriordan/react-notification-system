@@ -23,11 +23,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
+        test: /\.jsx?$/,
         use: [{loader: 'babel-loader'}]
       },
       {

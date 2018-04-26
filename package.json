@@ -10,7 +10,7 @@
     "prepublish": "npm run build",
     "lint": "eslint src --ext .jsx,.js",
     "start": "NODE_ENV=development node devServer.js",
-    "build:example": "rimraf example/build/ && webpack --stats --config webpack.config.prod.js"
+    "build:example": "rimraf example/build/ && webpack --config ./webpack.config.prod.js"
   },
   "repository": {
     "type": "git",

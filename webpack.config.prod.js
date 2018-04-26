@@ -1,14 +1,6 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
 
-var JS_REGEX = /\.js$|\.jsx$|\.es6$|\.babel$/;
-
-var sassLoaders = [
-  'css-loader',
-  'autoprefixer-loader?browsers=last 2 version',
-  'sass-loader?indentedSyntax=sass&includePaths[]=' + path.resolve(__dirname, './example/src')
-];
 
 module.exports = {
   entry: [
@@ -20,7 +12,6 @@ module.exports = {
     publicPath: '../build/'
   },
   plugins: [
-    new ExtractTextPlugin('app.css', { allChunks: true }),
     // set env
     new webpack.DefinePlugin({
       'process.env': {
@@ -31,7 +22,6 @@ module.exports = {
 
     // optimizations
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
@@ -57,27 +47,32 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.sass'],
-    modulesDirectories: ['node_modules']
+    extensions: ['.js', '.jsx', '.sass']
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: JS_REGEX,
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
-        loader: 'babel'
+        test: /\.jsx?$/,
+        use: [{loader: 'babel-loader'}]
       },
+
       {
         test: /\.sass$/,
-        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!'))
+        use: [
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+          {loader: 'postcss-loader', options: {browsers: 'last 2 version'}},
+          {loader: 'sass-loader', options: {indentedSyntax: 'sass', 'includePaths[]': path.resolve(__dirname, 'example/src')}},
+        ]
       },
       {
+        exclude: /node_modules/,
         test: /\.(jpe?g|png|gif|svg|woff|eot|ttf)$/,
-        loader: 'file-loader',
-        exclude: /node_modules/
+        use: [{loader: 'file-loader'}]
       }
     ]
   }
