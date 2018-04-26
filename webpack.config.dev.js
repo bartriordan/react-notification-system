@@ -1,7 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
 
-var JS_REGEX = /\.jsx?$|\.es6$|\.babel$/
 
 module.exports = {
   devtool: 'eval',
@@ -19,31 +18,30 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.sass'],
-    modulesDirectories: ['node_modules']
+    extensions: ['.js', '.jsx', '.sass']
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: JS_REGEX,
+        test: /\.jsx?$/,
         include: [
           path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example/src')
         ],
-        loader: 'babel'
+        loader: 'babel-loader'
       },
       {
         test: /\.sass$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'autoprefixer-loader?browsers=last 2 version',
-          'sass-loader?indentedSyntax=sass&includePaths[]=' + path.resolve(__dirname, 'example/src')
+        use: [
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+          {loader: 'autoprefixer-loader', options: {browsers: 'last 2 version'}},
+          {loader: 'sass-loader', options: {indentedSyntax: 'sass', 'includePaths[]': path.resolve(__dirname, 'example/src')}},
         ]
       },
       {
         test: /\.(jpe?g|png|gif|svg|woff|eot|ttf)$/,
-        loader: 'file-loader',
+        use: [{loader: 'file-loader'}],
         exclude: /node_modules/
       }
     ]
