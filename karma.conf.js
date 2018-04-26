@@ -1,46 +1,29 @@
 /* eslint-disable */
+const path = require('path')
+const webpack = require('webpack')
 
-var webpack = require('webpack')
-
-var coverage
-var reporters
-if (process.env.CONTINUOUS_INTEGRATION) {
-  coverage = {
-    type: 'lcov',
-    dir: 'coverage/'
-  }
-  reporters = ['coverage', 'coveralls']
-}
-else {
-  coverage = {
-    type: 'html',
-    dir: 'coverage/'
-  }
-  reporters = ['progress', 'coverage']
-}
 
 module.exports = function (config) {
   config.set({
-    browsers: ['Firefox'],
+    browsers: ['PhantomJS'],
     browserNoActivityTimeout: 30000,
     frameworks: ['es5-shim', 'mocha', 'chai', 'sinon-chai'],
     files: ['tests.webpack.js'],
     preprocessors: {'tests.webpack.js': ['webpack', 'sourcemap']},
-    reporters: reporters,
-    coverageReporter: coverage,
+    reporters: ['progress'],
     webpack: {
       devtool: 'inline-source-map',
       module: {
-        loaders: [
+        rules: [
           {
+            exclude: /node_modules/,
             test: /\.jsx?$/,
-            loader: 'babel',
-            exclude: /node_modules/
+            use: [{loader: 'babel-loader'}]
           },
           {
+            exclude: /node_modules/,
             test: /\.(jpe?g|png|gif|svg|woff|eot|ttf)$/,
-            loader: 'file-loader',
-            exclude: /node_modules/
+            use: [{loader: 'file-loader'}]
           }
         ]
       },
@@ -53,8 +36,8 @@ module.exports = function (config) {
         })
       ],
       resolve: {
-        extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['node_modules', 'src']
+        extensions: ['.js', '.jsx'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules']
       }
     },
     webpackServer: {
