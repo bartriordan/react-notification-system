@@ -1,10 +1,11 @@
 /* global sinon */
-
-import React, { Component } from 'react'
-import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
+import React from 'react'
+import TestUtils from 'react-dom/test-utils'
+
 import NotificationSystem from 'NotificationSystem'
-import { positions, levels } from 'constants'
+import {levels, positions} from 'constants'
+
 
 const defaultNotification = {
   title: 'This is a title',
@@ -24,6 +25,7 @@ const style = {
   }
 }
 
+
 describe('Notification Component', function() {
   let node
   let instance
@@ -36,7 +38,7 @@ describe('Notification Component', function() {
 
   beforeEach(() => {
     // We need to create this wrapper so we can use refs
-    class ElementWrapper extends Component {
+    class ElementWrapper extends React.Component {
       render() {
         return <NotificationSystem ref={ ref } style={ style } allowHTML={ true } noAnimation={ true } />
       }
