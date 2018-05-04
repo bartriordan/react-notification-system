@@ -1,9 +1,10 @@
-import React from 'react'
+import {Component} from 'react'
+import {PropTypes} from 'prop-types'
 
 import 'styles/generator'
 
 
-export default class NotificationGenerator extends React.Component {
+export default class NotificationGenerator extends Component {
   constructor(props) {
     super(props)
 
@@ -227,6 +228,6 @@ export default class NotificationGenerator extends React.Component {
 }
 
 NotificationGenerator.propTypes = {
-  allowHTML: React.PropTypes.func,
-  notifications: React.PropTypes.func.isRequired
+  allowHTML: PropTypes.func,
+  notifications: PropTypes.func.isRequired
 }

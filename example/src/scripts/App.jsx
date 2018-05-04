@@ -1,4 +1,6 @@
-import React from 'react'
+import {Component} from 'react'
+import {PropTypes} from 'prop-types'
+
 import ReactDOM from 'react-dom'
 import NotificationSystem from 'NotificationSystem'
 import constants from 'constants'
@@ -78,7 +80,7 @@ const getRandomPosition = () => {
 }
 
 
-class NotificationSystemExample extends React.Component {
+class NotificationSystemExample extends Component {
   constructor() {
     super()
 

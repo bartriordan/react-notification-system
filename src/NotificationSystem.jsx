@@ -1,4 +1,6 @@
-import React from 'react'
+import createReactClass from 'create-react-class'
+import {PropTypes} from 'prop-types'
+
 import NotificationContainer from './NotificationContainer'
 import Constants from './constants'
 import Styles from './styles'
@@ -13,14 +15,14 @@ const ELEMENT_TYPES = {
   actionWrapper: 'ActionWrapper'
 }
 
-const NotificationSystem = React.createClass({
+const NotificationSystem = createReactClass({
   getInitialState() { return {notifications: []} },
   propTypes: {
-    allowHTML: React.PropTypes.bool,
-    noAnimation: React.PropTypes.bool,
-    style: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.object
+    allowHTML: PropTypes.bool,
+    noAnimation: PropTypes.bool,
+    style: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
     ])
   },
   getDefaultProps() {

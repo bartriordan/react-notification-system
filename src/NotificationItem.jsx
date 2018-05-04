@@ -1,5 +1,6 @@
 import classnames from 'classnames'
-import React from 'react'
+import createReactClass from 'create-react-class'
+import {PropTypes} from 'prop-types'
 
 import closeIcon from './close.svg'
 import constants from './constants'
@@ -7,7 +8,7 @@ import Helpers from './helpers'
 import whichTransitionEvent from './whichTransitionEvent'
 
 
-const NotificationItem = React.createClass({
+const NotificationItem = createReactClass({
   height: 0,
   _isMounted: false,
   noAnimation: null,
@@ -15,15 +16,15 @@ const NotificationItem = React.createClass({
   removeCount: 0,
   styles: {},
   propTypes: {
-    allowHTML: React.PropTypes.bool,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
+    allowHTML: PropTypes.bool,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element
     ]),
-    getStyles: React.PropTypes.object,
-    noAnimation: React.PropTypes.bool,
-    notification: React.PropTypes.object,
-    onRemove: React.PropTypes.func
+    getStyles: PropTypes.object,
+    noAnimation: PropTypes.bool,
+    notification: PropTypes.object,
+    onRemove: PropTypes.func
   },
   getDefaultProps() {
     return {
@@ -229,7 +230,7 @@ NotificationItem.defaultProps = {
 }
 
 NotificationItem.propTypes = {
-  tagsWhereClickDismisses: React.PropTypes.arrayOf(React.PropTypes.string)
+  tagsWhereClickDismisses: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default NotificationItem

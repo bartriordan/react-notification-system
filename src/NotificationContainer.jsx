@@ -1,8 +1,10 @@
-import React from 'react'
+import {Component} from 'react'
+import {PropTypes} from 'prop-types'
+
 import NotificationItem from './NotificationItem'
 
 
-export default class NotificationContainer extends React.Component {
+export default class NotificationContainer extends Component {
   constructor() {
     super()
 
@@ -44,11 +46,11 @@ export default class NotificationContainer extends React.Component {
 }
 
 NotificationContainer.propTypes = {
-  allowHTML: React.PropTypes.bool,
-  children: React.PropTypes.node,
-  getStyles: React.PropTypes.object,
-  noAnimation: React.PropTypes.bool,
-  notifications: React.PropTypes.array.isRequired,
-  onRemove: React.PropTypes.func,
-  position: React.PropTypes.string.isRequired
+  allowHTML: PropTypes.bool,
+  children: PropTypes.node,
+  getStyles: PropTypes.object,
+  noAnimation: PropTypes.bool,
+  notifications: PropTypes.array.isRequired,
+  onRemove: PropTypes.func,
+  position: PropTypes.string.isRequired
 }
