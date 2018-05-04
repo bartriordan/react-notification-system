@@ -33,6 +33,9 @@ module.exports = function (config) {
             BROWSER: JSON.stringify(true),
             NODE_ENV: JSON.stringify('test')
           }
+        }),
+        new webpack.ProvidePlugin({
+          React: 'react'
         })
       ],
       resolve: {
