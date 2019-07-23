@@ -1,11 +1,12 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
 
 
 module.exports = {
   entry: [
     './example/src/scripts/App'
   ],
+  mode: 'production',
   output: {
     path: path.join(__dirname, 'example/build'),
     filename: 'app.js',
