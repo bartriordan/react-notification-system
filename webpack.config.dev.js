@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
 
 
 module.exports = {
@@ -15,8 +15,9 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
+  mode: 'development',
   resolve: {
     extensions: ['.js', '.jsx', '.sass']
   },
@@ -36,7 +37,7 @@ module.exports = {
           {loader: 'style-loader'},
           {loader: 'css-loader'},
           {loader: 'postcss-loader', options: {browsers: 'last 2 version'}},
-          {loader: 'sass-loader', options: {indentedSyntax: 'sass', 'includePaths[]': path.resolve(__dirname, 'example/src')}},
+          {loader: 'sass-loader', options: {indentedSyntax: 'sass', 'includePaths[]': path.resolve(__dirname, 'example/src')}}
         ]
       },
       {
